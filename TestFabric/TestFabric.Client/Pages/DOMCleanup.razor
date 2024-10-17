@@ -1,0 +1,30 @@
+﻿@page "/dom-cleanup"
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<h1>DOM Cleanup Example</h1>
+
+<div id="cleanupDiv"></div>
+
+@code {
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./Components/Pages/DOMCleanup.razor.js");
+
+            await module.InvokeVoidAsync("DOMCleanup.createObserver");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}

@@ -1,0 +1,121 @@
+@inject IJSRuntime JS
+@* @implements IAsyncDisposable *@
+@implements IAsyncDisposable
+
+<div>
+    <canvas id="fabricCanvas" width="800" height="600" style="border:1px solid #000;"></canvas>
+</div>
+
+<button type="button" class="btn btn-primary" @onclick="addBlueSquare">PRESS HERE FOR SQUARE</button>
+<button type="button" class="btn btn-primary" @onclick="addGradient">PRESS HERE FOR GRADIENT</button>
+
+
+
+
+@* <div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <ShapesCard></ShapesCard>
+            </div>
+                        <div class="row">
+            <ColorsCard></ColorsCard>
+            </div>
+        </div>
+        <div class="col">
+            <canvas id="fabricCanvas" width="800" height="600" style="border:1px solid #000;"></canvas>
+        </div>
+        <div class="col">
+            Column
+        </div>
+    </div>
+</div> *@
+
+
+
+
+
+@code {
+    private IJSObjectReference? module;
+
+
+    public async Task addBlueSquare()
+    {
+        Console.WriteLine("TEST");
+        if (module != null)
+        {
+            await module.InvokeVoidAsync("addBlueSquare");
+        }
+    }
+
+    public async Task addGradient()
+    {
+        if (module is not null)
+        {
+            await module.InvokeVoidAsync("addGradient");
+        }
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Load the JavaScript module once on first render
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./fabricinterop.js");
+        }
+    }
+
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         // module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/FabricCanvasComponent.razor.js");
+    //         module = await JS.InvokeAsync<IJSObjectReference>("import", "./fabricinterop.js");
+
+
+    //         testValue = await module.InvokeAsync<string>("testReach");
+    //     }
+    //     module = await JS.InvokeAsync<IJSObjectReference>("import", "./fabricinterop.js");
+
+    // }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         try
+    //         {
+    //             // Log to console to verify Blazor component lifecycle
+    //             Console.WriteLine("Blazor component rendering completed, attempting to initialize Fabric");
+
+    //             // Delay to ensure everything is loaded
+    //             await Task.Delay(500);
+
+    //             // Confirm function existence before calling
+    //             var isFunctionAvailable = await JS.InvokeAsync<bool>("eval", "typeof initializeFabric === 'function'");
+    //             if (isFunctionAvailable)
+    //             {
+    //                 await JS.InvokeVoidAsync("initializeFabric");
+    //             }
+    //             else
+    //             {
+    //                 Console.WriteLine("initializeFabric function not available");
+    //             }
+    //         }
+    //         catch (Exception ex)
+    //         {
+    //             Console.WriteLine($"Error initializing Fabric.js: {ex.Message}");
+    //         }
+    //     }
+    // }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
