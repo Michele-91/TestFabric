@@ -4,6 +4,7 @@ let canvasLoaded = false;
 var canvas;
 var blueSquare;
 var gradient;
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Document is fully loaded, attempting to initialize Fabric.js");
 
@@ -23,19 +24,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         canvasLoaded = true;
 
-        canvas = new fabric.Canvas('fabricCanvas');
-
-        // Create a red square of size 50px by 50px
-        var redSquare = new fabric.Rect({
-            left: 100,
-            top: 100,
-            fill: 'red',
-            width: 50,
-            height: 50
+        canvas = new fabric.Canvas('fabricCanvas', {
+            isDrawingMode: true
         });
 
-        // Add the red square to the canvas
-        canvas.add(redSquare);
+        //// Create a red square of size 50px by 50px
+        //var redSquare = new fabric.Rect({
+        //    left: 100,
+        //    top: 100,
+        //    fill: 'red',
+        //    width: 50,
+        //    height: 50
+        //});
+
+        //// Add the red square to the canvas
+        //canvas.add(redSquare);
+
+        canvas.isDrawingMode = true;
 
         console.log('Red square added to the canvas');
     }
@@ -49,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-window.addBlueSquare = function() {
+window.addBlueSquare = function () {
     blueSquare = new fabric.Rect({
         left: 100,
         top: 100,
@@ -61,7 +66,7 @@ window.addBlueSquare = function() {
     canvas.add(blueSquare);
 }
 
-window.addGradient = function() {
+window.addGradient = function () {
     gradient = new fabric.Gradient({
         type: 'linear',
         gradientUnits: 'pixels', // or 'percentage'
