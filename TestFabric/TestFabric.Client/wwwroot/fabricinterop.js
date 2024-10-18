@@ -28,17 +28,17 @@ document.addEventListener("DOMContentLoaded", function () {
             isDrawingMode: true
         });
 
-        //// Create a red square of size 50px by 50px
-        //var redSquare = new fabric.Rect({
-        //    left: 100,
-        //    top: 100,
-        //    fill: 'red',
-        //    width: 50,
-        //    height: 50
-        //});
+        // Create a red square of size 50px by 50px
+        var redSquare = new fabric.Rect({
+            left: 100,
+            top: 100,
+            fill: 'red',
+            width: 50,
+            height: 50
+        });
 
         //// Add the red square to the canvas
-        //canvas.add(redSquare);
+        canvas.add(redSquare);
 
         canvas.isDrawingMode = true;
 
